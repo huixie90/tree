@@ -19,24 +19,5 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 endif()
 
-# git clone Catch2, cmake & install to $INSTALL.
-# set Catch2_DIR in this project to $INSTALL/lib/cmake/Catch2
-find_package(Catch2 3 REQUIRED)
-
-#  +--------+
-#  |  TREE  |
-#  +--------+
-file(GLOB_RECURSE tree_hdr  RELATIVE ${CMAKE_SOURCE_DIR} tree/*.hpp)
-add_library(tree INTERFACE) # header-only library
-target_sources(tree INTERFACE ${tree_hdr})
-
-
-#  +-------------+
-#  |  TREE-TEST  |
-#  +-------------+
-
-file(GLOB_RECURSE tree_test_src RELATIVE ${CMAKE_SOURCE_DIR} CONFIGURE_DEPENDS  tree/test/*.cpp)
-add_executable(tree-test)
-target_sources(tree-test PRIVATE ${tree_test_src})
-target_link_libraries(tree-test PRIVATE Catch2::Catch2WithMain)
-target_include_directories(tree-test PRIVATE tree)
+add_subdirectory (tree)
+add_subdirectory (test)

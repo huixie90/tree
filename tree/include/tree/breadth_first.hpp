@@ -34,6 +34,8 @@ public:
   }
 
   constexpr std::default_sentinel_t end() const { return {}; }
+
+  constexpr bool empty() const { return queue_.empty(); }
 };
 
 template <class View, class Fn> class breadth_first_view<View, Fn>::iterator {
@@ -69,7 +71,7 @@ public:
 
   constexpr decltype(auto) operator*() const { return *current_; }
 
-  iterator &operator++() {
+  constexpr iterator &operator++() {
     assert(!parent_empty());
 
     enqueue_next_generation();
@@ -84,7 +86,7 @@ public:
     return *this;
   }
 
-  void operator++(int) { ++*this; }
+  constexpr void operator++(int) { ++*this; }
 
   friend constexpr bool operator==(const iterator &iter,
                                    std::default_sentinel_t) {
